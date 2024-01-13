@@ -12,8 +12,8 @@ Here is the caveat and the reason for my next module.
 Product dimensions are NOT in the free version of oscommerce, and it will cost you USD$59 to enable it. The aupost module requires the length_cm, width_cm and height_cm fields
  in the product database to request quotes from Australia Post.
  <br>
- Not only is the ability to edit these fields missing in oscommerce4, but they NULL out the values for these when you submit any update to a product, 
- so we can't even manually set these fields in the database.
+ Not only is the ability to edit these fields missing in oscommerce4, but they seem to NULL out the values for these (and the _in values are set to zero) when you submit any update to a product, 
+ so we can't even manually set these fields in the database. I'm not sure whether this is intentional or a bug.
  <br>
  ## ProductDimensions extension
  This module is an attempt to extend the "Size and Packaging" tab on the product editing page to allow adding dimensions for shipping calculations.
