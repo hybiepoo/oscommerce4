@@ -17,17 +17,17 @@ Edit the following file:
 <br>
 Look for the following:
 <br>
-```html
+~~~
  <div class="dimmens_cm dimmens">
    <div class="edp-line">
      <label class="addcolonm">{$smarty.const.TEXT_WIGHT_KG}</label>
       <input type="text" name="weight_cm" value="{$pInfo->weight_cm}" class="form-control form-control-small js_convert" data-target="weight_in" data-unit="kg">
     </div>
-```
+~~~
 <br>
 After this, add:
 <br>
-```html
+~~~
 <div class="edp-line">
    <label class="addcolonm">{$smarty.const.TEXT_LENGTH_CM}</label>
    <input type="text" name="length_cm" value="{$pInfo->length_cm}" class="form-control form-control-small" data-target="length_in" data-unit="kg">
@@ -40,7 +40,7 @@ After this, add:
   <label class="addcolonm">{$smarty.const.TEXT_HEIGHT_CM}</label>
   <input type="text" name="height_cm" value="{$pInfo->height_cm}" class="form-control form-control-small" data-target="length_in" data-unit="kg">
   </div>
- ```
+ ~~~
 <br>
 This should give you the fields required for the aupost module to work.
 
