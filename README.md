@@ -17,7 +17,7 @@ Edit the following file:
 <br>
 Look for the following:
 <br>
-~~~html
+~~~
  \<div class="dimmens_cm dimmens"\>
    \<div class="edp-line"\>
      \<label class="addcolonm"\>{$smarty.const.TEXT_WIGHT_KG}\</label\>
@@ -27,7 +27,7 @@ Look for the following:
 <br>
 After this, add:
 <br>
-~~~html
+~~~
 \<div class="edp-line"\>
    \<label class="addcolonm"\>{$smarty.const.TEXT_LENGTH_CM}\</label\>
    \<input type="text" name="length_cm" value="{$pInfo-\>length_cm}" class="form-control form-control-small" data-target="length_in" data-unit="kg"\>
