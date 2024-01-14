@@ -18,28 +18,28 @@ Edit the following file:
 Look for the following:
 <br>
 ~~~
- \<div class="dimmens_cm dimmens"\>
-   \<div class="edp-line"\>
-     \<label class="addcolonm"\>{$smarty.const.TEXT_WIGHT_KG}\</label\>
-      \<input type="text" name="weight_cm" value="{$pInfo->weight_cm}" class="form-control form-control-small js_convert" data-target="weight_in" data-unit="kg"\>
-    \</div\>
+ &lt;div class="dimmens_cm dimmens"&gt;
+   &lt;div class="edp-line"&gt;
+     &lt;label class="addcolonm"&gt;{$smarty.const.TEXT_WIGHT_KG}&lt;/label&gt;
+      &lt;input type="text" name="weight_cm" value="{$pInfo->weight_cm}" class="form-control form-control-small js_convert" data-target="weight_in" data-unit="kg"&gt;
+    &lt;/div&gt;
 ~~~
 <br>
 After this, add:
 <br>
 ~~~
-\<div class="edp-line"\>
-   \<label class="addcolonm"\>{$smarty.const.TEXT_LENGTH_CM}\</label\>
-   \<input type="text" name="length_cm" value="{$pInfo-\>length_cm}" class="form-control form-control-small" data-target="length_in" data-unit="kg"\>
-\</div\>
-\<div class="edp-line"\>
-  \<label class="addcolonm"\>{$smarty.const.TEXT_WIDTH_CM}\</label\>
-  \<input type="text" name="width_cm" value="{$pInfo-\>width_cm}" class="form-control form-control-small" data-target="width_in" data-unit="kg"\>
-\</div\>
-\<div class="edp-line"\>
-  \<label class="addcolonm"\>{$smarty.const.TEXT_HEIGHT_CM}\</label\>
-  \<input type="text" name="height_cm" value="{$pInfo-\>height_cm}" class="form-control form-control-small" data-target="length_in" data-unit="kg"\>
-  \</div\>
+&lt;div class="edp-line"&gt;
+   &lt;label class="addcolonm"&gt;{$smarty.const.TEXT_LENGTH_CM}&lt;/label&gt;
+   &lt;input type="text" name="length_cm" value="{$pInfo->length_cm}" class="form-control form-control-small" data-target="length_in" data-unit="kg"&gt;
+&lt;/div&gt;
+&lt;div class="edp-line"&gt;
+  &lt;label class="addcolonm"&gt;{$smarty.const.TEXT_WIDTH_CM}&lt;/label&gt;
+  &lt;input type="text" name="width_cm" value="{$pInfo->width_cm}" class="form-control form-control-small" data-target="width_in" data-unit="kg"&gt;
+&lt;/div&gt;
+&lt;div class="edp-line"&gt;
+  &lt;label class="addcolonm"&gt;{$smarty.const.TEXT_HEIGHT_CM}&lt;/label&gt;
+  &lt;input type="text" name="height_cm" value="{$pInfo->height_cm}" class="form-control form-control-small" data-target="length_in" data-unit="kg"&gt;
+  &lt;/div&gt;
  ~~~
 <br>
 This should give you the fields required for the aupost module to work.
