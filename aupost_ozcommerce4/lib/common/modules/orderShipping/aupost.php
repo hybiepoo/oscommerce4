@@ -40,7 +40,7 @@ if (!defined('MODULE_SHIPPING_AUPOST_STATUS')) { define('MODULE_SHIPPING_AUPOST_
 if (!defined('MODULE_SHIPPING_AUPOST_SORT_ORDER')) { define('MODULE_SHIPPING_AUPOST_SORT_ORDER',''); }
 if (!defined('MODULE_SHIPPING_AUPOST_ICONS')) { define('MODULE_SHIPPING_AUPOST_ICONS',''); }
 if (!defined('MODULE_SHIPPING_AUPOST_TAX_BASIS')) {define('MODULE_SHIPPING_AUPOST_TAX_BASIS', 'Shipping');}
-if (!defined('VERSION_AU')) { define('VERSION_AU', '2.5.5.07');}
+if (!defined('VERSION_AU')) { define('VERSION_AU', '1.0.0.0');}
 // +++++++++++++++++++++++++++++
 define('AUPOST_MODE','PROD'); //Test OR PROD    // Test uses test URL and Test Authkey;
                                                 // PROD uses the key input via the admin shipping modules panel for "Australia Post"
@@ -155,7 +155,7 @@ class aupost extends ModuleShipping {
 		$currencies = \Yii::$container->get('currencies');
 		$order = $this->manager->getOrderInstance();
 		//print_r($cart->get_products());
-		//print_r($order);
+		//print_r($cart);
         $methods = [];
 		/// Single Quote ///
         if (tep_not_null($method) && (isset($_SESSION['aupostQuotes']))) {
@@ -273,15 +273,12 @@ class aupost extends ModuleShipping {
         $topcode = str_replace(" ","",($this->delivery['postcode'] ?? ''));
 		//echo "Postcode: " . $topcode . PHP_EOL;
         $aus_rate = (float)$currencies->get_value('AUD') ;                  // get $AU exchange rate
+		//echo "AUD: " . $currencies->get_value('AUD') ;
         // EOF PARCELS - values
-		
-		if ($aus_rate == 0) {                                               // included to avoid possible divide  by zero error
-            $aus_rate = (float)$currencies->get_value('AUS') ;              // if AUD zero/undefined then try AUS // BMH quotes added
-            if ($aus_rate == 0) {
-                $aus_rate = 1;                                              // if still zero initialise to 1.00 to avoid divide by zero error
-            }
-        }                     
-		$ordervalue=$order->info['total'] / $aus_rate ;                 // total cost for insurance
+	
+		//$ordervalue = $_SESSION['cart']->total / $ausrate;
+		//print_r($cart);
+		//print_r($_SESSION);
         $tare = MODULE_SHIPPING_AUPOST_TARE ;                           // percentage to add for packing etc
 
         if (($topcode == "") && ($dest_country == "AU")) {
@@ -296,14 +293,25 @@ class aupost extends ModuleShipping {
        // loop through cart extracting productIDs and qtys //
         $myorder = $cart->get_products();
 		//
-		//echo "Printing $myorder";
+		if ($aus_rate == 0) {                                               // included to avoid possible divide  by zero error
+            $aus_rate = (float)$currencies->get_value('AUS') ;              // if AUD zero/undefined then try AUS // BMH quotes added
+            if ($aus_rate == 0) {
+                $aus_rate = 1;                                              // if still zero initialise to 1.00 to avoid divide by zero error
+            }
+        }
+		$ordervalue = 0;
+		//print_r($myorder);
 		if (MODULE_SHIPPING_AUPOST_DEBUG == "Yes" ) {
+			echo "Printing $myorder";
 			print_r($myorder);
 		}
         for($x = 0 ; $x < count($myorder) ; $x++ ) {
             $producttitle = $myorder[$x]['id'] ;
             $q = $myorder[$x]['quantity'];
             $w = $myorder[$x]['weight'];
+			$p = $myorder[$x]['price'];
+			$ordervalue = $ordervalue + ($p * $q);                           // total cost for insurance
+			//echo $ordervalue;
 
             $dim_query = tep_db_query("select length_cm, height_cm, width_cm from " . TABLE_PRODUCTS . " where products_id='$producttitle' limit 1 ");
             $dims = tep_db_fetch_array($dim_query);
@@ -355,6 +363,11 @@ class aupost extends ModuleShipping {
                 // NOTE: The chargeable weight is the greater of the physical or the cubic weight of your parcel
             } // eof debug display table
         }
+		//echo "aus_rate: " . $aus_rate;
+		if ($ordervalue != "0" && $aus_rate != "0") {
+			$ordervalue = $ordervalue / $aus_rate;
+		}
+		
 		// /////////////////////// LETTERS //////////////////////////////////
         // BMH for letter dimensions
         // letter height for starters

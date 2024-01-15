@@ -41,7 +41,7 @@ if (!defined('MODULE_SHIPPING_OVERSEASAUPOST_TAX_CLASS')) { define('MODULE_SHIPP
 if (!defined('MODULE_SHIPPING_OVERSEASAUPOST_CORE_WEIGHT')) { define('MODULE_SHIPPING_OVERSEASAUPOST_CORE_WEIGHT',''); }
 if (!defined('MODULE_SHIPPING_OVERSEASAUPOST_TAX_BASIS')) {define('MODULE_SHIPPING_OVERSEASAUPOST_TAX_BASIS', 'Shipping');}
 
-if (!defined('VERSION_AU_INT')) { define('VERSION_AU_INT', '2.5.5.03'); }
+if (!defined('VERSION_AU_INT')) { define('VERSION_AU_INT', '1.0.0.0'); }
 
 // ++++++++++++++++++++++++++
 if (!defined('MODULE_SHIPPING_OVERSEASAUPOST_AUTHKEY')) { define('MODULE_SHIPPING_OVERSEASAUPOST_AUTHKEY','') ;}
@@ -215,18 +215,9 @@ class aupostoverseas extends ModuleShipping {
 
         $topcode = str_replace(" ","",($order->delivery['postcode']));
         $aus_rate_int = (float)$currencies->get_value('AUD') ;
-        $ordervalue=$order->info['total'] / $aus_rate_int ;
         $tare = MODULE_SHIPPING_OVERSEASAUPOST_TARE ;
             // EOF PARCELS - values
 
-        if ($aus_rate_int == 0) {                                   // included by BMH to avoid possible divide  by zero error
-            $aus_rate_int = (float)$currencies->get_value(AUS);     // if AUD zero/undefined then try AUS
-            if ($aus_rate_int == 0) {
-                $aus_rate_int = 1;                                  // if still zero initialise to 1.00 to avoid divide by zero error
-            }
-        }           //
-
-        $ordervalue=$order->info['total'] / $aus_rate_int ;         // total cost for insurance
         //  Only proceed for AU addresses
         if ($dest_country == "AU") {
             return $this->quotes ;     //  exit if AU
@@ -235,15 +226,22 @@ class aupostoverseas extends ModuleShipping {
         $FlatText = " Using AusPost Flat Rate." ;
 
         // loop through cart extracting productIDs and qtys //
-        $myorder = $_SESSION['cart']->get_products();
-
+        $myorder = $cart->get_products();
+		if ($aus_rate == 0) {                                               // included to avoid possible divide  by zero error
+            $aus_rate = (float)$currencies->get_value('AUS') ;              // if AUD zero/undefined then try AUS // BMH quotes added
+            if ($aus_rate == 0) {
+                $aus_rate = 1;                                              // if still zero initialise to 1.00 to avoid divide by zero error
+            }
+        }
+		$ordervalue = 0;
         for($x = 0 ; $x < count($myorder) ; $x++ )
         {
             //$producttitle = $myorder[$x]['id'] ;
             $t = $myorder[$x]['id'] ;  // BMH better name
             $q = $myorder[$x]['quantity'];
             $w = $myorder[$x]['weight'];
-
+			$p = $myorder[$x]['price'];
+			$ordervalue = $ordervalue + ($p * $q);                           // total cost for insurance
             $dim_query = tep_db_query("select length_cm, height_cm, width_cm from " . TABLE_PRODUCTS . " where products_id='$t' limit 1 ");
             $dims = tep_db_fetch_array($dim_query);
 
