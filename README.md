@@ -23,7 +23,7 @@ Look for the following:
    <div class="edp-line">
      <label class="addcolonm">{$smarty.const.TEXT_WIGHT_KG}</label>
       <input type="text" name="weight_cm" value="{$pInfo->weight_cm}" class="form-control form-control-small js_convert" data-target="weight_in" data-unit="kg">
-    </div>
+   </div>
 ```
 
 <br>
@@ -42,11 +42,24 @@ After this, add:
 <div class="edp-line">
   <label class="addcolonm">{$smarty.const.TEXT_HEIGHT_CM}</label>
   <input type="text" name="height_cm" value="{$pInfo->height_cm}" class="form-control form-control-small" data-target="length_in" data-unit="kg">
-  </div>
+</div>
 ```
 
 <br>
 This should give you the fields required for the aupost module to work.
+<br>
+If you want the logo to show, you may need to modify the cart estimate template:
 
+>lib/frontend/themes/basic/shopping-cart/estimate.tpl
 
+Look for the line:
 
+```
+<div class="title">{$shipping_quote_item.module}</div>
+```
+
+Change it to:
+
+```
+<div class="title">{$shipping_quote_item.module}{$shipping_quote_item.icon}</div>
+```

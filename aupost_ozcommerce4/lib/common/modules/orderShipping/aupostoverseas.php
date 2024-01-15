@@ -1,4 +1,16 @@
 <?php
+
+/***************************************************************
+Australia Post shipping estimator for oscommerce 4
+
+author: hybiepoo@hotmail.com
+credits: This module is a port of the zencart aupost module:
+https://www.zen-cart.com/downloads.php?do=file&id=1138
+
+I have only modified it where necessary to work with osc4
+
+***************************************************************/
+
 /**
  * namespace
  */
@@ -109,7 +121,7 @@ class aupostoverseas extends ModuleShipping {
 		if (MODULE_SHIPPING_OVERSEASAUPOST_ICONS != "No" ) {
             $this->logo = 'aupost_logo.jpg';
             $this->icon = $this->logo;                  // set the quote icon to the logo //BMH DEBUG
-            if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, $this->title); //BMH
+            //if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, $this->title, , 60, 60); //BMH
         }
       // get letter and parcel methods defined
         $this->allowed_methods = explode(", ", MODULE_SHIPPING_OVERSEASAUPOST_TYPES1) ;
@@ -159,7 +171,7 @@ class aupostoverseas extends ModuleShipping {
             if ($this->tax_class_int >  0) {
                 $this->quotes['tax'] = Tax::get_tax_rate($this->tax_class_int, $order->delivery['country']['id'], $order->delivery['zone_id']);
             }
-            if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, $this->title); // set icon for  quotes array
+            if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, $this->title, 80,60, 'style="padding: 0px 0px 0px 20px;"'); // set icon for  quotes array
             return $this->quotes;   // return a single quote
         }  ////////////////////////////  Single Quote Exit Point //////////////////////////////////
 
@@ -872,7 +884,7 @@ class aupostoverseas extends ModuleShipping {
             echo '<p class="aupost-debug"> <br>parcels ***<br>aupost ln872 ' .'https://' . $aupost_url_string . PARCEL_INT_URL_STRING . "&country_code=$dcode&weight=$parcelweight" . '</p>';
         } //BMH ** DEBUG
 
-        if (zen_not_null($this->icon)) $this->quotes['icon'] = zen_image($this->icon, $this->title); // set icon for  quotes array
+        if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, $this->title, 80,60, 'style="padding: 0px 0px 0px 20px;"');
         $_SESSION['overseasaupostQuotes'] = $this->quotes  ; // save as session to avoid reprocessing when single method required
 
         return $this->quotes;   //  all done //

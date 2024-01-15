@@ -1,5 +1,16 @@
 <?php
 
+/***************************************************************
+Australia Post shipping estimator for oscommerce 4
+
+author: hybiepoo@hotmail.com
+credits: This module is a port of the zencart aupost module:
+https://www.zen-cart.com/downloads.php?do=file&id=1138
+
+I have only modified it where necessary to work with osc4
+
+***************************************************************/
+
 /**
  * namespace
  */
@@ -126,8 +137,8 @@ class aupost extends ModuleShipping {
 		if (MODULE_SHIPPING_AUPOST_ICONS != "No" ) {
             $this->logo = DIR_WS_ICONS . 'aupost_logo.jpg';
             $this->icon = $this->logo;                  // set the quote icon to the logo //BMH DEBUG
-			if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, $this->title);
-			$this->quotes['icon'] = tep_image($this->icon, $this->title);
+			//if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, $this->title, 50, 50);
+			//$this->quotes['icon'] = tep_image($this->icon, $this->title, 50, 50);
         }
 		$this->enabled = (defined('MODULE_SHIPPING_AUPOST_STATUS') && (MODULE_SHIPPING_AUPOST_STATUS == 'True'));
 		// get letter and parcel methods defined
@@ -180,9 +191,9 @@ class aupost extends ModuleShipping {
 				$this->quotes['tax'] = \common\helpers\Tax::get_tax_rate($this->tax_class, $this->delivery['country']['id'] ?? null, $this->delivery['zone_id'] ?? null);
 			}
 
-			if (tep_not_null($this->icon))
-				$this->quotes['icon'] = tep_image($this->icon, $this->title);   // return a single quote
-			}  ///  Single Quote Exit Point ////
+			if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, $this->title, 80,60, 'style="padding: 0px 0px 0px 20px;"');
+			
+		}  ///  Single Quote Exit Point ////
 		
 		/// LETTERS - values  ///
         if (MODULE_SHIPPING_AUPOST_TYPE_LETTERS  <> null) {
@@ -1284,7 +1295,7 @@ class aupost extends ModuleShipping {
             echo '<p class="aupost-debug"> <br>parcels ***<br>aupost ln1284 ' .'https://' . $aupost_url_string . PARCEL_URL_STRING .
                 MODULE_SHIPPING_AUPOST_SPCODE . "&to_postcode=$dcode&length=$parcellength&width=$parcelwidth&height=$parcelheight&weight=$parcelweight" . '</p>';
         }
-        if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, $this->title);
+        if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, $this->title, 80,60, 'style="padding: 0px 0px 0px 20px;"');
         $_SESSION['aupostQuotes'] = $this->quotes  ; // save as session to avoid reprocessing when single method required
 
         return $this->quotes;   //  all done //
