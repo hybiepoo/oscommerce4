@@ -285,7 +285,10 @@ class aupostoverseas extends ModuleShipping {
                 </table></center> " ;
             }   // eof debug display table
         }   // end for loop
-
+		// Order value including exchange rate - avoid division by zero error
+		if ($ordervalue != "0" && $aus_rate != "0") {
+			$ordervalue = $ordervalue / $aus_rate;
+		}
         //////////// // PACKAGE ADJUSTMENT FOR OPTIMAL PACKING // ////////////
         // package created, now re-orientate and check dimensions
         $parcelheight = ceil($parcelheight);  // round up to next integer // cm for accuracy in pricing

@@ -363,7 +363,6 @@ class aupost extends ModuleShipping {
                 // NOTE: The chargeable weight is the greater of the physical or the cubic weight of your parcel
             } // eof debug display table
         }
-		//echo "aus_rate: " . $aus_rate;
 		if ($ordervalue != "0" && $aus_rate != "0") {
 			$ordervalue = $ordervalue / $aus_rate;
 		}
